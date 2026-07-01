@@ -1,148 +1,89 @@
-# VitSleep 🌙
+# VitSleep
 
-**A free, privacy-first lucid dreaming journal and training app.**  
-Inspired by Oniri & Lucidity — rebuilt from scratch, completely offline, no paywalls, no accounts.
+![JSON](https://img.shields.io/badge/JSON-000000.svg?style=flat-square&logo=JSON&logoColor=white)  ![npm](https://img.shields.io/badge/npm-CB3837.svg?style=flat-square&logo=npm&logoColor=white)  ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=flat-square&logo=JavaScript&logoColor=black)  ![React](https://img.shields.io/badge/React-61DAFB.svg?style=flat-square&logo=React&logoColor=black)  ![Vite](https://img.shields.io/badge/Vite-646CFF.svg?style=flat-square&logo=Vite&logoColor=white)  ![CSS](https://img.shields.io/badge/CSS-663399.svg?style=flat-square&logo=CSS&logoColor=white)  ![datefns](https://img.shields.io/badge/datefns-770C56.svg?style=flat-square&logo=date-fns&logoColor=white)
 
----
+## Overview
 
-## What's inside
-
-| Feature | Details |
-|---------|---------|
-| 🌙 Dream Journal | Full CRUD — title, content, mood, lucidity level, tags, dream signs, characters, locations |
-| ✨ AI Analysis | Jungian dream interpretation via OpenRouter (bring your own API key) |
-| 🎓 7-Day Program | Guided course from zero to first lucid dream |
-| 🤚 Reality Checks | Reminders with configurable interval & hours |
-| ⏰ WBTB | Wake Back to Bed alarm calculator with browser notification |
-| 👂 SSILD Timer | Guided 6-cycle sensory timer |
-| 📊 Statistics | Heatmap, line chart, mood distribution, dream sign cloud |
-| 🔍 Search & Filter | Full-text search across all dream fields, filter by lucidity/mood/favorite |
-| 🔒 100% Local | All data in IndexedDB — no server, no account, no tracking |
-| 📱 PWA | Installable on Android, iOS, desktop — works offline |
+VitSleep is a React PWA (Progressive Web App) for sleep tracking and analysis. It runs as a single-page application with offline capability, mobile responsiveness, and a dependency manifest that ensures deterministic installs across all environments.
 
 ---
 
-## Quick Start
+## Table of Contents
 
-```bash
-# 1. Install dependencies
-npm install
-
-# 2. Run dev server (hot reload)
-npm run dev
-
-# 3. Build for production
-npm run build
-
-# 4. Preview production build
-npm run preview
-```
-
-Open `http://localhost:5173` in your browser.  
-For PWA install: open in Chrome/Edge → address bar → Install icon.
+- [Overview](#overview)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## AI Analysis Setup
+## Features
 
-VitSleep uses [OpenRouter](https://openrouter.ai/) as the AI gateway.
-
-1. Create a free account at [openrouter.ai](https://openrouter.ai/)
-2. Generate an API key at [openrouter.ai/keys](https://openrouter.ai/keys)
-3. Open VitSleep → Settings → AI Analysis → paste your key
-
-Recommended model: **Claude 3.5 Sonnet** (best dream analysis quality)  
-Budget option: **Gemini Flash 1.5** (~$0.001 per analysis)
-
-Your key is stored locally in your browser — never sent anywhere except OpenRouter.
-
----
-
-## Tech Stack
-
-- **React 18** + **Vite** — fast builds, instant HMR
-- **Zustand** — lightweight state management
-- **IndexedDB** (via `idb`) — offline-first storage
-- **Recharts** — statistics charts
-- **date-fns** — date formatting
-- **vite-plugin-pwa** — PWA + Service Worker
-- **DM Serif Display + DM Sans** — typography
+|      | Component         | Details                                                                                                                                                                                                                                          |
+| :--- | :---------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ⚙️  | **Architecture**  | <ul><li>**SPA** (Single Page Application) built with `React` + `Vite`</li><li>**PWA**-enabled via `vite-plugin-pwa` — installable, offline-capable</li><li>Client-side routing via `react-router-dom`</li><li>Global state managed with `zustand` store pattern</li><li>Offline-first data persistence using `idb` (IndexedDB wrapper)</li></ul> |
+| 🔩 | **Code Quality**  | <ul><li>Component-based structure using `.jsx` files</li><li>Modern ES module syntax throughout</li><li>Declarative UI patterns consistent with React best practices</li><li>No linting config detected (e.g., ESLint/Prettier absent from dependencies)</li></ul> |
+| 📄 | **Documentation** | <ul><li>No dedicated docs directory or wiki detected</li><li>`LICENSE` file present — project is openly licensed</li><li>Inline code documentation not verifiable from metadata alone</li><li>`package.json` serves as primary project manifest</li></ul> |
+| 🔌 | **Integrations**  | <ul><li>`recharts` — data visualization for sleep analytics/charts</li><li>`date-fns` — lightweight date manipulation (e.g., sleep duration, formatting)</li><li>`lucide-react` — icon library for UI components</li><li>`idb` — browser IndexedDB API for local data storage</li><li>PWA service worker integration via `vite-plugin-pwa`</li></ul> |
+| 🧩 | **Modularity**    | <ul><li>React component model enforces UI modularity</li><li>`zustand` enables isolated, composable state slices</li><li>`react-router-dom` separates routing logic from view components</li><li>Vite plugin system (`@vitejs/plugin-react`, `vite-plugin-pwa`) keeps build config modular</li></ul> |
 
 ---
 
 ## Project Structure
 
 ```
-src/
-├── App.jsx                 # Router + nav shell
-├── index.css               # Design system (CSS variables, components)
-├── main.jsx                # Entry point
-│
-├── data/
-│   └── content.js          # All 7 lessons, techniques, tips, dream signs
-│
-├── store/
-│   └── index.js            # Zustand stores (dreams, RC, settings, onboarding, toast)
-│
-├── utils/
-│   └── db.js               # IndexedDB wrapper (idb)
-│
-├── pages/
-│   ├── Dashboard.jsx       # Home screen
-│   ├── Journal.jsx         # Dream list + search + filter
-│   ├── DreamForm.jsx       # Create / edit dream
-│   ├── DreamDetail.jsx     # Dream viewer + AI analysis
-│   ├── Techniques.jsx      # Technique library
-│   ├── TechniqueDetail.jsx # Detail + SSILD timer + WBTB + RC settings
-│   ├── Statistics.jsx      # Heatmap, charts, symbols
-│   ├── SettingsPage.jsx    # All settings
-│   └── OnboardingPage.jsx  # 7-day program
-│
-└── components/
-    └── dashboard/
-        ├── StreakCard.jsx
-        ├── RealityCheckWidget.jsx
-        └── OnboardingBanner.jsx
+└── VitSleep/
+    ├── index.html
+    ├── LICENSE
+    ├── package-lock.json
+    ├── package.json
+    ├── README.md
+    ├── src
+    │   ├── App.jsx
+    │   ├── components
+    │   ├── data
+    │   ├── index.css
+    │   ├── main.jsx
+    │   ├── pages
+    │   ├── store
+    │   └── utils
+    └── vite.config.js
 ```
 
 ---
 
-## Design Philosophy
+## Getting Started
 
-VitSleep uses a **black & white, dream-driven** aesthetic:
-- Dark background (`#0a0a0f`) with pure white text
-- `DM Serif Display` for headings — literary, dreamy
-- `DM Sans` for body — clean, modern
-- Animations at 150–380ms with `cubic-bezier(0.16, 1, 0.3, 1)` easing
-- No color except lucidity level indicators (grey → blue → purple → white)
+### Prerequisites
+
+- Python 3.10+ / Node.js 18+ *(depending on the stack above)*
+
+### Installation
+
+```sh
+git clone "https://github.com/IlluzyonistCode/VitSleep
+cd VitSleep"
+npm install
+```
+
+### Usage
+
+```sh
+npm start
+```
 
 ---
 
-## Browser Support
+## Contributing
 
-| Browser | Status |
-|---------|--------|
-| Chrome 90+ | ✅ Full PWA support |
-| Firefox 88+ | ✅ Full support |
-| Safari 15+ | ✅ PWA installable |
-| Edge 90+ | ✅ Full PWA support |
-
----
-
-## Privacy
-
-- Zero telemetry
-- Zero external requests (except OpenRouter when you explicitly trigger AI analysis)
-- All data in `localStorage` (settings) and `IndexedDB` (dreams, progress)
-- Export your data anytime as JSON from Settings
+- [Report Issues](https://github.com/IlluzyonistCode/VitSleep/issues)
+- [Submit Pull Requests](https://github.com/IlluzyonistCode/VitSleep/pulls)
+- [Discussions](https://github.com/IlluzyonistCode/VitSleep/discussions)
 
 ---
 
 ## License
 
-MIT — do whatever you want with it.
-
----
-
-*Built with care for everyone who envies a friend's natural lucid dreaming gift  
-and decided to earn their own wings instead.*
+Distributed under the [AGPL-3.0](LICENSE) license.
